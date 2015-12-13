@@ -28,7 +28,7 @@
     "co": "^4.6.0",
     "express": "^4.13.3",
     "jsonapi-server": "^1.0.2",
-    "oauth2-server": "^2.4.1",
+    "node-oauth2-server": "^2.4.0",
     "proxy-middleware": "^0.15.0"
   }
 }

@@ -25,7 +25,7 @@ describe('REST API', () => {
     after(() => authServer.close());
 
     it('should authorize', co.wrap(function* () {
-      const response = yield fetch('http://localhost:6000/oauth/token', {
+      const authResponse = yield fetch('http://localhost:6000/oauth/token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -33,8 +33,18 @@ describe('REST API', () => {
         },
         body: 'grant_type=password&username=thomseddon&password=nightworld'
       });
-      //console.log(response);
-      assert(response.ok, '/login response');
+      assert(authResponse.ok, '/login response');
+      const authJson = yield authResponse.json();
+      assert(authJson.access_token, 'No token was sent');
+
+      const articleResponse = yield fetch('http://localhost:6000/articles', {
+        headers: {
+          'Authorization': 'Bearer ' + authJson.access_token
+        }
+      });
+      assert(articleResponse.ok, '/articles response');
+      const articleJson = yield articleResponse.json();
+      assert(articleJson.data[0].id === '11', 'should have data');
     }));
   });
 });
