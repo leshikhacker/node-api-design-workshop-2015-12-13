@@ -3,7 +3,7 @@
 const jsonApi = require('jsonapi-server');
 
 jsonApi.listen = (port, callback) => {
-  jsonApi.setConfig({ port, base: 'rest' });
+  jsonApi.setConfig({ port });
 
   jsonApi.start();
   if(callback) {
@@ -18,7 +18,7 @@ jsonApi.define({
   handlers: new jsonApi.MemoryHandler(),
   attributes: {
     title: Joi.string().required(),
-    body: Joi.string().uri().required(),
+    body: Joi.string().required(),
     publishedAt: Joi.date().iso()
   },
   examples: [{
